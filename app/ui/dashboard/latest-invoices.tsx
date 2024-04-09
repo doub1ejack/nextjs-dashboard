@@ -8,6 +8,7 @@ export default async function LatestInvoices({
 }: {
   latestInvoices: LatestInvoice[];
 }) {
+  const lastRefresh = latestInvoices[0].timestamp;
   return (
     <div className="flex w-full flex-col md:col-span-4">
       <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
@@ -54,7 +55,9 @@ export default async function LatestInvoices({
         </div>
         <div className="flex items-center pb-2 pt-6">
           <ArrowPathIcon className="h-5 w-5 text-gray-500" />
-          <h3 className="ml-2 text-sm text-gray-500 ">Updated just now</h3>
+          <h3 className="ml-2 text-sm text-gray-500 ">
+            Updated: {lastRefresh}
+          </h3>
         </div>
       </div>
     </div>

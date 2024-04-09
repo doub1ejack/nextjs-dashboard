@@ -1,7 +1,7 @@
 import { generateYAxis } from '@/app/lib/utils';
-import { CalendarIcon } from '@heroicons/react/24/outline';
+import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import { lusitana } from '@/app/ui/fonts';
-import { Revenue } from '@/app/lib/definitions';
+import { Revenue, RevenueRequest } from '@/app/lib/definitions';
 
 // This component is representational only.
 // For data visualization UI, check out:
@@ -12,12 +12,13 @@ import { Revenue } from '@/app/lib/definitions';
 export default async function RevenueChart({
   revenue,
 }: {
-  revenue: Revenue[];
+  revenue: RevenueRequest;
 }) {
+  const data: Revenue[] = revenue.data;
   const chartHeight = 350;
-  const { yAxisLabels, topLabel } = generateYAxis(revenue);
+  const { yAxisLabels, topLabel } = generateYAxis(data);
 
-  if (!revenue || revenue.length === 0) {
+  if (!data || data.length === 0) {
     return <p className="mt-4 text-gray-400">No data available.</p>;
   }
 
@@ -37,7 +38,7 @@ export default async function RevenueChart({
             ))}
           </div>
 
-          {revenue.map((month) => (
+          {data.map((month) => (
             <div key={month.month} className="flex flex-col items-center gap-2">
               <div
                 className="w-full rounded-md bg-blue-300"
@@ -52,8 +53,10 @@ export default async function RevenueChart({
           ))}
         </div>
         <div className="flex items-center pb-2 pt-6">
-          <CalendarIcon className="h-5 w-5 text-gray-500" />
-          <h3 className="ml-2 text-sm text-gray-500 ">Last 12 months</h3>
+          <ArrowPathIcon className="h-5 w-5 text-gray-500" />
+          <h3 className="ml-2 text-sm text-gray-500 ">
+            Updated: {revenue.timestamp}
+          </h3>
         </div>
       </div>
     </div>

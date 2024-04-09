@@ -7,10 +7,11 @@ import {
   LatestInvoiceRaw,
   User,
   Revenue,
+  RevenueRequest,
 } from './definitions';
 import { formatCurrency } from './utils';
 
-export async function fetchRevenue() {
+export async function fetchRevenue(): Promise<RevenueRequest> {
   // Add noStore() here prevent the response from being cached.
   // This is equivalent to in fetch(..., {cache: 'no-store'}).
 
@@ -21,11 +22,21 @@ export async function fetchRevenue() {
     // console.log('Fetching revenue data...');
     // await new Promise((resolve) => setTimeout(resolve, 3000));
 
-    const data = await sql<Revenue>`SELECT * FROM revenue`;
+    const dataRaw = await sql<Revenue>`SELECT * FROM revenue`;
 
     // console.log('Data fetch completed after 3 seconds.');
-
-    return data.rows;
+    const data: RevenueRequest = {
+      data: dataRaw.rows,
+      timestamp: new Date(Date.now()).toLocaleString('en-US', {
+        month: '2-digit',
+        day: '2-digit',
+        year: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      }),
+    };
+    return data;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch revenue data.');
@@ -44,6 +55,14 @@ export async function fetchLatestInvoices() {
     const latestInvoices = data.rows.map((invoice) => ({
       ...invoice,
       amount: formatCurrency(invoice.amount),
+      timestamp: new Date(Date.now()).toLocaleString('en-US', {
+        month: '2-digit',
+        day: '2-digit',
+        year: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      }),
     }));
     return latestInvoices;
   } catch (error) {
