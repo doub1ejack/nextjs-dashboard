@@ -7,7 +7,7 @@ import {
   fetchLatestInvoices,
   fetchCardData,
 } from '@/app/lib/data';
-import { RevenueRequest } from '../lib/definitions';
+import { RevenueRequest } from '../../lib/definitions';
 
 export default async function Page() {
   const revenue: RevenueRequest = await fetchRevenue();

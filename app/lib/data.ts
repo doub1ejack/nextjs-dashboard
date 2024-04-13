@@ -17,6 +17,12 @@ export async function fetchRevenue(): Promise<RevenueRequest> {
   // This is equivalent to in fetch(..., {cache: 'no-store'}).
   noStore();
 
+  // Simulate a slow network request
+  const delay = await new Promise((resolve) =>
+    setTimeout(() => resolve('1 second'), 1000),
+  );
+  console.log(`Simulating slow network request: ${delay}`);
+
   try {
     const dataRaw = await sql<Revenue>`SELECT * FROM revenue`;
     const data: RevenueRequest = {
@@ -108,6 +114,7 @@ export async function fetchFilteredInvoices(
   currentPage: number,
 ) {
   noStore();
+
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
