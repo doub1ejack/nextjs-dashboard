@@ -2,6 +2,7 @@ import { generateYAxis } from '@/app/lib/utils';
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import { lusitana } from '@/app/ui/fonts';
 import { Revenue, RevenueRequest } from '@/app/lib/definitions';
+import { fetchRevenue } from '@/app/lib/data';
 
 // This component is representational only.
 // For data visualization UI, check out:
@@ -9,11 +10,8 @@ import { Revenue, RevenueRequest } from '@/app/lib/definitions';
 // https://www.chartjs.org/
 // https://airbnb.io/visx/
 
-export default async function RevenueChart({
-  revenue,
-}: {
-  revenue: RevenueRequest;
-}) {
+export default async function RevenueChart() {
+  const revenue: RevenueRequest = await fetchRevenue();
   const data: Revenue[] = revenue.data;
   const chartHeight = 350;
   const { yAxisLabels, topLabel } = generateYAxis(data);
