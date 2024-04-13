@@ -19,7 +19,7 @@ export async function fetchRevenue(): Promise<RevenueRequest> {
 
   // Simulate a slow network request
   const delay = await new Promise((resolve) =>
-    setTimeout(() => resolve('1 second'), 1000),
+    setTimeout(() => resolve('2 seconds'), 2000),
   );
   console.log(`Simulating slow network request: ${delay}`);
 
